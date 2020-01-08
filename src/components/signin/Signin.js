@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Signin.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { SIGNIN_API_ENDPOINT } from '../../utils/constants';
 
 export const Signin = () => {
 	const [ email, setEmail ] = useState('');
@@ -14,9 +15,10 @@ export const Signin = () => {
 		};
 
 		axios
-			.post('http://localhost:5000/api/user/signin', body)
+			.post(SIGNIN_API_ENDPOINT, body)
 			.then((response) => {
 				console.log(response.data);
+				localStorage.setItem('user', JSON.stringify(response.data.data))
 			})
 			.catch((error) => {
 				console.log(error.response);
@@ -25,7 +27,7 @@ export const Signin = () => {
 
 	return (
 		<div>
-			<div class="signin-box">
+			<div className="signin-box">
 				<div>
 					<h3 className="text-center text-info">Klever</h3>
 				</div>
