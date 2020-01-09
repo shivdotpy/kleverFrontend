@@ -1,3 +1,7 @@
 #hoc-sidebar td {
     padding: 1px 10px
 }
+
+.logout-btn {
+    cursor: pointer;
+}

@@ -1,15 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Hoc.css';
+import { getUserType } from '../../utils/common-methods';
 
 export const Hoc = (props) => {
+	const userType = getUserType();
+
+	const logout = () => {
+		localStorage.clear();
+		window.location.href = '/';
+	};
+
 	return (
 		<div>
 			<nav className="navbar navbar-light justify-content-between shadow-sm mb-2">
 				<Link to="/" className="navbar-brand">
 					Klever
 				</Link>
-				<div className="text-right">Logout</div>
+				<div className="text-right logout-btn" onClick={logout}>
+					<i class="fas fa-power-off" /> Logout
+				</div>
 			</nav>
 			<div className="container-fluid">
 				<div className="row">
@@ -49,13 +59,19 @@ export const Hoc = (props) => {
 											</small>
 										</td>
 									</tr>
-                                    <tr>
+									<tr>
 										<td>
 											<i class="fas fa-user-cog" />
 										</td>
 										<td className="text-left">
 											<small>
-												<b>Setting</b>
+												<b>
+													{userType === 'employer' ? (
+														<Link to="/employer-profile">Setting</Link>
+													) : (
+														<Link to="/freelancer-profile">Setting</Link>
+													)}
+												</b>
 											</small>
 										</td>
 									</tr>
@@ -63,7 +79,9 @@ export const Hoc = (props) => {
 							</table>
 						</div>
 					</div>
-					<div className="col-md-10">{props.children}</div>
+					<div className="col-md-10 p-3" style={{ backgroundColor: '#F8F8F8' }}>
+						{props.children}
+					</div>
 				</div>
 			</div>
 		</div>
