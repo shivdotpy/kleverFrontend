@@ -1,34 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import { Hoc } from '../hoc/Hoc';
-import { getUserName, getUserToken, getUserImage } from '../../utils/common-methods';
+import { getUserName, getUserToken } from '../../utils/common-methods';
 import RoundedImage from 'react-rounded-image';
 import './FreelancerProfile.css';
 import defaultUserImage from '../../assets/images/default-user.png';
 import FileBase64 from 'react-file-base64';
 import axios from 'axios';
-import { UPDATE_USER_IMAGE_ENDPOINT, GET_USER_IMAGE_ENDPOINT } from '../../utils/constants';
+import {
+	UPDATE_USER_IMAGE_ENDPOINT,
+	GET_USER_IMAGE_ENDPOINT,
+	UPDATE_FREELANCER_PROFILE_ENDPOINT
+} from '../../utils/constants';
 
 export const FreelancerProfile = () => {
 	const [ userImage, setUserImage ] = useState(defaultUserImage);
 
+	const [ fullName, setFullName ] = useState('');
+	const [ skills, setSkills ] = useState([]);
+	const [ title, setTitle ] = useState('');
+	const [ shortDescription, setShortDescription ] = useState('');
+	const [ availability, setAvailability ] = useState('');
+	const [ rate, setRate ] = useState('');
+	const [ description, setDescription ] = useState('');
+
 	const userName = getUserName();
 	const userToken = getUserToken();
 
-
 	useEffect(() => {
-		getUserImage()
-	})
+		getUserImage();
+		getUserProfile();
+	}, []);
 
 	const getUserImage = () => {
-		axios.get(GET_USER_IMAGE_ENDPOINT, {
-			headers: { token: userToken }
-		})
-		.then(response => {
-			setUserImage(response.data.data)
-		})
-		.catch(error => {
-			console.log(error.response)
-		})
+		axios
+			.get(GET_USER_IMAGE_ENDPOINT, {
+				headers: { token: userToken }
+			})
+			.then((response) => {
+				setUserImage(response.data.data);
+			})
+			.catch((error) => {
+				console.log(error.response);
+			});
+	};
+
+	const getUserProfile = () => {
+		
 	}
 
 	const openProfileImage = () => {
@@ -46,7 +63,29 @@ export const FreelancerProfile = () => {
 				headers: { token: userToken }
 			})
 			.then((response) => {
-				getUserImage()
+				getUserImage();
+			})
+			.catch((error) => {
+				console.log(error.response);
+			});
+	};
+
+	const submitFreelancerDetailForm = () => {
+		const body = {
+			fullName,
+			skills,
+			title,
+			shortDescription,
+			description,
+			availability,
+			rate
+		};
+		axios
+			.put(UPDATE_FREELANCER_PROFILE_ENDPOINT, body, {
+				headers: { token: userToken }
+			})
+			.then((response) => {
+				console.log(response.data);
 			})
 			.catch((error) => {
 				console.log(error.response);
@@ -78,7 +117,14 @@ export const FreelancerProfile = () => {
 						</div>
 						<div className="col-md-10">
 							<div className="form-group">
-								<input className="form-control" placeholder="Full Name" />
+								<input
+									className="form-control"
+									placeholder="Full Name"
+									value={fullName}
+									onChange={(event) => {
+										setFullName(event.target.value);
+									}}
+								/>
 							</div>
 							<div className="form-group">
 								<input className="form-control" placeholder="Skills" />
@@ -88,22 +134,50 @@ export const FreelancerProfile = () => {
 					<div className="row">
 						<div className="col-md-4">
 							<div className="form-group">
-								<input className="form-control" placeholder="Title" />
+								<input
+									className="form-control"
+									placeholder="Title"
+									value={title}
+									onChange={(event) => {
+										setTitle(event.target.value);
+									}}
+								/>
 							</div>
 						</div>
 						<div className="col-md-8">
 							<div className="form-group">
-								<input className="form-control" placeholder="Short Description" />
+								<input
+									className="form-control"
+									placeholder="Short Description"
+									value={shortDescription}
+									onChange={(event) => {
+										setShortDescription(event.target.value);
+									}}
+								/>
 							</div>
 						</div>
 					</div>
 					<div className="row pb-3">
 						<div className="col-md-4">
 							<div className="form-group">
-								<input className="form-control" placeholder="Availability" />
+								<input
+									className="form-control"
+									placeholder="Availability"
+									value={availability}
+									onChange={(event) => {
+										setAvailability(event.target.value);
+									}}
+								/>
 							</div>
 							<div className="form-group">
-								<input className="form-control" placeholder="Rate Setting" />
+								<input
+									className="form-control"
+									placeholder="Rate Setting"
+									value={rate}
+									onChange={(event) => {
+										setRate(event.target.value);
+									}}
+								/>
 							</div>
 						</div>
 						<div className="col-md-8">
@@ -112,6 +186,10 @@ export const FreelancerProfile = () => {
 									className="form-control"
 									placeholder="Description"
 									style={{ resize: 'none', height: '90px' }}
+									value={description}
+									onChange={(event) => {
+										setDescription(event.target.value);
+									}}
 								/>
 							</div>
 						</div>
@@ -128,7 +206,12 @@ export const FreelancerProfile = () => {
 					</div>
 					<div className="row">
 						<div className="col-md-12 text-right">
-							<button className="btn btn-primary freelancer-profile-save-btn">Save</button>
+							<button
+								className="btn btn-primary freelancer-profile-save-btn"
+								onClick={submitFreelancerDetailForm}
+							>
+								Save
+							</button>
 						</div>
 					</div>
 				</div>
