@@ -1,23 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Hoc } from '../hoc/Hoc';
-import { getUserName, getUserToken } from '../../utils/common-methods';
+import { getUserName, getUserToken, getUserImage } from '../../utils/common-methods';
 import RoundedImage from 'react-rounded-image';
 import './FreelancerProfile.css';
 import defaultUserImage from '../../assets/images/default-user.png';
 import FileBase64 from 'react-file-base64';
 import axios from 'axios';
-import { UPDATE_USER_IMAGE_ENDPOINT } from '../../utils/constants';
-
-function getBase64(file, cb) {
-	let reader = new FileReader();
-	reader.readAsDataURL(file);
-	reader.onload = function() {
-		cb(reader.result);
-	};
-	reader.onerror = function(error) {
-		console.log('Error: ', error);
-	};
-}
+import { UPDATE_USER_IMAGE_ENDPOINT, GET_USER_IMAGE_ENDPOINT } from '../../utils/constants';
 
 export const FreelancerProfile = () => {
 	const [ userImage, setUserImage ] = useState(defaultUserImage);
@@ -25,14 +14,29 @@ export const FreelancerProfile = () => {
 	const userName = getUserName();
 	const userToken = getUserToken();
 
+
+	useEffect(() => {
+		getUserImage()
+	})
+
+	const getUserImage = () => {
+		axios.get(GET_USER_IMAGE_ENDPOINT, {
+			headers: { token: userToken }
+		})
+		.then(response => {
+			setUserImage(response.data.data)
+		})
+		.catch(error => {
+			console.log(error.response)
+		})
+	}
+
 	const openProfileImage = () => {
 		const element = document.querySelector('#open-profile-image');
 		element.getElementsByTagName('input')[0].click();
 	};
 
 	const handleProfileImageChange = (image) => {
-		console.log('event', image);
-
 		const body = {
 			image: image.base64
 		};
@@ -42,18 +46,11 @@ export const FreelancerProfile = () => {
 				headers: { token: userToken }
 			})
 			.then((response) => {
-				console.log(response.data);
+				getUserImage()
 			})
 			.catch((error) => {
 				console.log(error.response);
 			});
-
-		// return;
-		// let idCardBase64 = '';
-		// getBase64(event.target.file, (result) => {
-		// 	idCardBase64 = result;
-		// });
-		// console.log(event);
 	};
 
 	return (

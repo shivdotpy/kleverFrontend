@@ -18,18 +18,18 @@ export const Hoc = (props) => {
 					Klever
 				</Link>
 				<div className="text-right logout-btn" onClick={logout}>
-					<i class="fas fa-power-off" /> Logout
+					<i className="fas fa-power-off" /> Logout
 				</div>
 			</nav>
 			<div className="container-fluid">
 				<div className="row">
 					<div className="col-md-2">
 						<div className="text-center">
-							<table class="table table-borderless" id="hoc-sidebar">
+							<table className="table table-borderless" id="hoc-sidebar">
 								<tbody>
 									<tr>
 										<td>
-											<i class="fas fa-rocket" />
+											<i className="fas fa-rocket" />
 										</td>
 										<td className="text-left">
 											<small>
@@ -51,7 +51,7 @@ export const Hoc = (props) => {
 									</tr>
 									<tr>
 										<td>
-											<i class="fas fa-envelope" />
+											<i className="fas fa-envelope" />
 										</td>
 										<td className="text-left">
 											<small>
@@ -61,7 +61,7 @@ export const Hoc = (props) => {
 									</tr>
 									<tr>
 										<td>
-											<i class="fas fa-user-cog" />
+											<i className="fas fa-user-cog" />
 										</td>
 										<td className="text-left">
 											<small>
