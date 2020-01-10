@@ -9,7 +9,8 @@ import axios from 'axios';
 import {
 	UPDATE_USER_IMAGE_ENDPOINT,
 	GET_USER_IMAGE_ENDPOINT,
-	UPDATE_FREELANCER_PROFILE_ENDPOINT
+	UPDATE_FREELANCER_PROFILE_ENDPOINT,
+	GET_FREELANCER_PROFILE_ENDPOINT
 } from '../../utils/constants';
 
 export const FreelancerProfile = () => {
@@ -45,8 +46,33 @@ export const FreelancerProfile = () => {
 	};
 
 	const getUserProfile = () => {
-		
-	}
+		axios
+			.get(GET_FREELANCER_PROFILE_ENDPOINT, {
+				headers: { token: userToken }
+			})
+			.then((response) => {
+				console.log(response.data);
+				const {
+					fullName,
+					availability,
+					description,
+					rate,
+					shortDescription,
+					title,
+					skills
+				} = response.data.data;
+				setFullName(fullName);
+				setAvailability(availability);
+				setDescription(description);
+				setRate(rate);
+				setShortDescription(shortDescription);
+				setTitle(title);
+				setSkills(skills);
+			})
+			.catch((error) => {
+				console.log(error.response);
+			});
+	};
 
 	const openProfileImage = () => {
 		const element = document.querySelector('#open-profile-image');
@@ -86,6 +112,7 @@ export const FreelancerProfile = () => {
 			})
 			.then((response) => {
 				console.log(response.data);
+				getUserProfile()
 			})
 			.catch((error) => {
 				console.log(error.response);
