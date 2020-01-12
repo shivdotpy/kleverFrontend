@@ -51,7 +51,6 @@ export const FreelancerProfile = () => {
 				headers: { token: userToken }
 			})
 			.then((response) => {
-				console.log(response.data);
 				const {
 					fullName,
 					availability,
@@ -75,8 +74,23 @@ export const FreelancerProfile = () => {
 	};
 
 	const openProfileImage = () => {
-		const element = document.querySelector('#open-profile-image');
-		element.getElementsByTagName('input')[0].click();
+		
+	};
+
+	const openUploadWindow = (type) => {
+		switch (type) {
+			case 'audio':
+				const audioElement = document.querySelector('#open-audio-window');
+				audioElement.getElementsByTagName('input')[0].setAttribute('accept', 'audio/mp3,audio/*;capture=microphone');
+				audioElement.getElementsByTagName('input')[0].click();
+				break;
+			case 'profile':
+				const profileImageElement = document.querySelector('#open-profile-image');
+				profileImageElement.getElementsByTagName('input')[0].click();
+				break;
+			default:
+				return;
+		}
 	};
 
 	const handleProfileImageChange = (image) => {
@@ -112,7 +126,7 @@ export const FreelancerProfile = () => {
 			})
 			.then((response) => {
 				console.log(response.data);
-				getUserProfile()
+				getUserProfile();
 			})
 			.catch((error) => {
 				console.log(error.response);
@@ -223,7 +237,17 @@ export const FreelancerProfile = () => {
 					</div>
 					<div className="row pb-3">
 						<div className="col-md-12">
-							<button className="btn btn-info freelancer-profile-btn">Upload Audio</button>
+							<button
+								className="btn btn-info freelancer-profile-btn"
+								onClick={() => {
+									openUploadWindow('audio');
+								}}
+							>
+								Upload Audio
+							</button>
+							<div className="d-none" id="open-audio-window">
+								<FileBase64 onDone={handleProfileImageChange} />
+							</div>
 						</div>
 					</div>
 					<div className="row">

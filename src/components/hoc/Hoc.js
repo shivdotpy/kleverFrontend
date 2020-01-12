@@ -23,63 +23,68 @@ export const Hoc = (props) => {
 			</nav>
 			<div className="container-fluid">
 				<div className="row">
-					<div className="col-md-2">
-						<div className="text-center">
-							<table className="table table-borderless" id="hoc-sidebar">
-								<tbody>
-									<tr>
-										<td>
-											<i className="fas fa-rocket" />
-										</td>
-										<td className="text-left">
-											<small>
-												<b>Projects</b>
-											</small>
-										</td>
-									</tr>
-									<tr>
-										<td />
-										<td className="text-left">
-											<small>Active Projects</small>
-										</td>
-									</tr>
-									<tr>
-										<td />
-										<td className="text-left">
-											<small>Pending Proposals</small>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<i className="fas fa-envelope" />
-										</td>
-										<td className="text-left">
-											<small>
-												<b>Message</b>
-											</small>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<i className="fas fa-user-cog" />
-										</td>
-										<td className="text-left">
-											<small>
-												<b>
-													{userType === 'employer' ? (
-														<Link to="/employer-profile">Setting</Link>
-													) : (
-														<Link to="/freelancer-profile">Setting</Link>
-													)}
-												</b>
-											</small>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+					{props.hideSidebar ? null : (
+						<div className="col-md-2">
+							<div className="text-center">
+								<table className="table table-borderless" id="hoc-sidebar">
+									<tbody>
+										<tr>
+											<td>
+												<i className="fas fa-rocket" />
+											</td>
+											<td className="text-left">
+												<small>
+													<b>Projects</b>
+												</small>
+											</td>
+										</tr>
+										<tr>
+											<td />
+											<td className="text-left">
+												<small>Active Projects</small>
+											</td>
+										</tr>
+										<tr>
+											<td />
+											<td className="text-left">
+												<small>Pending Proposals</small>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<i className="fas fa-envelope" />
+											</td>
+											<td className="text-left">
+												<small>
+													<b>Message</b>
+												</small>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<i className="fas fa-user-cog" />
+											</td>
+											<td className="text-left">
+												<small>
+													<b>
+														{userType === 'employer' ? (
+															<Link to="/employer-profile">Setting</Link>
+														) : (
+															<Link to="/freelancer-profile">Setting</Link>
+														)}
+													</b>
+												</small>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
-					</div>
-					<div className="col-md-10 p-3" style={{ backgroundColor: '#F8F8F8' }}>
+					)}
+					<div
+						className={props.hideSidebar ? 'col-md-12' : 'col-md-10 p-3'}
+						style={{ backgroundColor: '#F8F8F8' }}
+					>
 						{props.children}
 					</div>
 				</div>

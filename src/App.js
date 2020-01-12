@@ -6,6 +6,7 @@ import { Signin } from './components/signin/Signin';
 import { ActiveProjects } from './components/active-projects/ActiveProjects';
 import { FreelancerProfile } from './components/freelancer-profile/FreelancerProfile';
 import { EmployerProfile } from './components/employer-profile/EmployerProfile';
+import { SearchFreelancer } from './components/search-freelancer/SearchFreelancer';
 
 function App() {
 	return (
@@ -17,6 +18,7 @@ function App() {
 				<Route path="/active-projects" exact component={ActiveProjects} />
 				<Route path="/freelancer-profile" exact component={FreelancerProfile} />
 				<Route path="/employer-profile" exact component={EmployerProfile} />
+				<Route path="/search-freelancer" exact component={SearchFreelancer} />
 			</BrowserRouter>
 		</div>
 	);
