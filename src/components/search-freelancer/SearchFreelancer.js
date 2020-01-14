@@ -14,8 +14,8 @@ const modalStyles = {
 		right: 'auto',
 		bottom: 'auto',
 		marginRight: '-50%',
-		height: '200px',
-		width: '200px',
+		height: '520px',
+		width: '700px',
 		transform: 'translate(-50%, -50%)'
 	}
 };
@@ -23,6 +23,7 @@ const modalStyles = {
 export const SearchFreelancer = (props) => {
 	const [ freelancers, setFreelancers ] = useState([]);
 	const [ freelancer, setFreelancer ] = useState({});
+	const [ openHireModal, setOpenHireModal ] = useState(false);
 
 	useEffect(() => {
 		getFreelancers();
@@ -142,7 +143,14 @@ export const SearchFreelancer = (props) => {
 								<p>No projects available</p>
 							</div>
 							<div>
-								<button className="btn btn-info m-2">Hire Now</button>
+								<button
+									className="btn btn-info m-2"
+									onClick={() => {
+										setOpenHireModal(true);
+									}}
+								>
+									Hire Now
+								</button>
 								<button className="btn btn-info m-2">Contact</button>
 							</div>
 						</div>
@@ -153,7 +161,65 @@ export const SearchFreelancer = (props) => {
 			</div>
 
 			{/* Modal -- Hire now */}
-			<Modal isOpen={true} style={modalStyles}>Opened</Modal>
+			<Modal isOpen={openHireModal} style={modalStyles}>
+				<div className="row mb-4">
+					<div className="col-md-2">
+						<RoundedImage
+							image={freelancer.image ? freelancer.image : defaultUserImage}
+							roundedColor="#007bff"
+							roundedSize="5"
+							imageWidth="80"
+							imageHeight="80"
+						/>
+					</div>
+					<div className="col-md-10 pl-0 pt-3">
+						<p className="mb-0">
+							<b>Hire, {freelancer.fullName}</b>
+						</p>
+						<p>
+							<small>at, ${freelancer.rate}/hr</small>
+						</p>
+					</div>
+				</div>
+				<div className="row mb-4">
+					<div className="col-md-9">
+						<input className="form-control" placeholder="Project Title" />
+					</div>
+					<div className="col-md-3">
+						<select className="form-control">
+							<option>Hourly</option>
+							<option>Fixed</option>
+						</select>
+					</div>
+				</div>
+				<div className="row mb-4">
+					<div className="col-md-3">
+						<input className="form-control" placeholder="Per Hour Rate" />
+					</div>
+					<div className="col-md-3">
+						<input className="form-control" placeholder="Project Length" />
+					</div>
+					<div className="col-md-3">
+						<input className="form-control" placeholder="Hour Per Week" />
+					</div>
+					<div className="col-md-3">
+						<select className="form-control">
+							<option>India</option>
+							<option>United States</option>
+						</select>
+					</div>
+				</div>
+				<div className="row mb-3">
+					<div className="col-md-12">
+						<textarea className="form-control" style={{ resize: 'none', height: '180px' }}
+						 />
+					</div>
+				</div>
+				<div className="text-right">
+						<button className="btn btn-info m-1">Hire</button>
+						<button className="btn btn-danger m-1" onClick={() => {setOpenHireModal(false)}}>Cancel</button>
+				</div>
+			</Modal>
 		</Hoc>
 	);
 };
