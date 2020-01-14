@@ -38,18 +38,22 @@ export const Hoc = (props) => {
 												</small>
 											</td>
 										</tr>
-										<tr>
-											<td />
-											<td className="text-left">
-												<small>Active Projects</small>
-											</td>
-										</tr>
-										<tr>
-											<td />
-											<td className="text-left">
-												<small>Pending Proposals</small>
-											</td>
-										</tr>
+										{userType === 'employer' && (
+											<tr>
+												<td />
+												<td className="text-left">
+													<small>Active Projects</small>
+												</td>
+											</tr>
+										)}
+										{userType === 'freelancer' && (
+											<tr>
+												<td />
+												<td className="text-left">
+													<small>Pending Proposals</small>
+												</td>
+											</tr>
+										)}
 										<tr>
 											<td>
 												<i className="fas fa-envelope" />

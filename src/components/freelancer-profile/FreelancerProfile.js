@@ -38,7 +38,7 @@ export const FreelancerProfile = () => {
 				headers: { token: userToken }
 			})
 			.then((response) => {
-				setUserImage(response.data.data);
+				setUserImage(response.data.data ? response.data.data : defaultUserImage);
 			})
 			.catch((error) => {
 				console.log(error.response);
@@ -73,15 +73,13 @@ export const FreelancerProfile = () => {
 			});
 	};
 
-	const openProfileImage = () => {
-		
-	};
-
 	const openUploadWindow = (type) => {
 		switch (type) {
 			case 'audio':
 				const audioElement = document.querySelector('#open-audio-window');
-				audioElement.getElementsByTagName('input')[0].setAttribute('accept', 'audio/mp3,audio/*;capture=microphone');
+				audioElement
+					.getElementsByTagName('input')[0]
+					.setAttribute('accept', 'audio/mp3,audio/*;capture=microphone');
 				audioElement.getElementsByTagName('input')[0].click();
 				break;
 			case 'profile':
@@ -143,7 +141,7 @@ export const FreelancerProfile = () => {
 					<p>Personal Info</p>
 					<div className="row mb-4">
 						<div className="col-md-2">
-							<span onClick={openProfileImage}>
+							<span onClick={() => openUploadWindow('profile')}>
 								<RoundedImage
 									image={userImage}
 									roundedColor="#007bff"
