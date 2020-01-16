@@ -4,8 +4,13 @@ import RoundedImage from 'react-rounded-image';
 import defaultUserImage from '../../assets/images/default-user.png';
 import audioImage from '../../assets/images/cbimage.jpg';
 import axios from 'axios';
-import { GET_FREELANCERS_ENDPOINT, GET_FREELANCER_DETAIL_ENDPOINT } from '../../utils/constants';
+import {
+	GET_FREELANCERS_ENDPOINT,
+	GET_FREELANCER_DETAIL_ENDPOINT,
+	SEND_PROPOSAL_TO_FREELANCER_API_ENDPOINT
+} from '../../utils/constants';
 import Modal from 'react-modal';
+import { getUserToken } from '../../utils/common-methods';
 
 const modalStyles = {
 	content: {
@@ -24,6 +29,16 @@ export const SearchFreelancer = (props) => {
 	const [ freelancers, setFreelancers ] = useState([]);
 	const [ freelancer, setFreelancer ] = useState({});
 	const [ openHireModal, setOpenHireModal ] = useState(false);
+
+	const [ title, setTitle ] = useState('');
+	const [ basedOn, setBasedOn ] = useState('hourly');
+	const [ perHourRate, setPerHourRate ] = useState('');
+	const [ length, setLength ] = useState('');
+	const [ perWeekHourLimit, setPerWeekHourLimit ] = useState('');
+	const [ location, setLocation ] = useState('india');
+	const [ description, setDescription ] = useState('');
+
+	const userToken = getUserToken();
 
 	useEffect(() => {
 		getFreelancers();
@@ -46,6 +61,38 @@ export const SearchFreelancer = (props) => {
 			.then((response) => {
 				setFreelancer(response.data.data);
 				console.log(response.data);
+			})
+			.catch((error) => {
+				console.log(error.response);
+			});
+	};
+
+	const onSubmitHire = () => {
+		const requestBody = {
+			freelancerId: freelancer._id,
+			title,
+			basedOn,
+			perHourRate,
+			length,
+			perWeekHourLimit,
+			location,
+			description
+		};
+
+		axios
+			.post(SEND_PROPOSAL_TO_FREELANCER_API_ENDPOINT, requestBody, {
+				headers: { token: userToken }
+			})
+			.then((response) => {
+				console.log(response.data);
+				setTitle('');
+				setBasedOn('hourly');
+				setPerHourRate('');
+				setLength('');
+				setPerWeekHourLimit('');
+				setLocation('india');
+				setDescription('');
+				setOpenHireModal(false);
 			})
 			.catch((error) => {
 				console.log(error.response);
@@ -183,41 +230,97 @@ export const SearchFreelancer = (props) => {
 				</div>
 				<div className="row mb-4">
 					<div className="col-md-9">
-						<input className="form-control" placeholder="Project Title" />
+						<input
+							className="form-control"
+							placeholder="Project Title"
+							value={title}
+							onChange={(event) => {
+								setTitle(event.target.value);
+							}}
+						/>
 					</div>
 					<div className="col-md-3">
-						<select className="form-control">
-							<option>Hourly</option>
-							<option>Fixed</option>
+						<select
+							className="form-control"
+							value={basedOn}
+							onChange={(event) => {
+								setBasedOn(event.target.value);
+							}}
+						>
+							<option value="hourly">Hourly</option>
+							<option value="fixed">Fixed</option>
 						</select>
 					</div>
 				</div>
 				<div className="row mb-4">
 					<div className="col-md-3">
-						<input className="form-control" placeholder="Per Hour Rate" />
+						<input
+							className="form-control"
+							placeholder="Per Hour Rate"
+							value={perHourRate}
+							onChange={(event) => {
+								setPerHourRate(event.target.value);
+							}}
+						/>
 					</div>
 					<div className="col-md-3">
-						<input className="form-control" placeholder="Project Length" />
+						<input
+							className="form-control"
+							placeholder="Project Length"
+							value={length}
+							onChange={(event) => {
+								setLength(event.target.value);
+							}}
+						/>
 					</div>
 					<div className="col-md-3">
-						<input className="form-control" placeholder="Hour Per Week" />
+						<input
+							className="form-control"
+							placeholder="Hour Per Week"
+							value={perWeekHourLimit}
+							onChange={(event) => {
+								setPerWeekHourLimit(event.target.value);
+							}}
+						/>
 					</div>
 					<div className="col-md-3">
-						<select className="form-control">
-							<option>India</option>
-							<option>United States</option>
+						<select
+							className="form-control"
+							value={location}
+							onChange={(event) => {
+								setLocation(event.target.value);
+							}}
+						>
+							<option value="india">India</option>
+							<option value="united states">United States</option>
 						</select>
 					</div>
 				</div>
 				<div className="row mb-3">
 					<div className="col-md-12">
-						<textarea className="form-control" style={{ resize: 'none', height: '180px' }}
-						 />
+						<textarea
+							className="form-control"
+							style={{ resize: 'none', height: '180px' }}
+							placeholder="Project Description"
+							value={description}
+							onChange={(event) => {
+								setDescription(event.target.value);
+							}}
+						/>
 					</div>
 				</div>
 				<div className="text-right">
-						<button className="btn btn-info m-1">Hire</button>
-						<button className="btn btn-danger m-1" onClick={() => {setOpenHireModal(false)}}>Cancel</button>
+					<button className="btn btn-info m-1" onClick={onSubmitHire}>
+						Hire
+					</button>
+					<button
+						className="btn btn-danger m-1"
+						onClick={() => {
+							setOpenHireModal(false);
+						}}
+					>
+						Cancel
+					</button>
 				</div>
 			</Modal>
 		</Hoc>
