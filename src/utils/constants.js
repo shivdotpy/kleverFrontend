@@ -9,3 +9,7 @@ export const GET_FREELANCER_PROFILE_ENDPOINT = `${BASE_API_URL}/api/user/getFree
 export const GET_FREELANCERS_ENDPOINT = `${BASE_API_URL}/api/user/getFreelancers`;
 export const GET_FREELANCER_DETAIL_ENDPOINT = `${BASE_API_URL}/api/user/getFreelancerDetail`;
 export const SEND_PROPOSAL_TO_FREELANCER_API_ENDPOINT = `${BASE_API_URL}/api/project/addProject`;
+export const GET_PENDING_PROPOSALS_API_ENDPOINT = `${BASE_API_URL}/api/project/myPendingProposals`;
+export const ACCEPT_PROPOSAL_API_ENDPOINT = `${BASE_API_URL}/api/project/acceptProposal`;
+export const DECLINE_PROPOSAL_API_ENDPOINT = `${BASE_API_URL}/api/project/declineProposal`;
+export const GET_MY_ACTIVE_PROJECTS_API_ENDPOINT = `${BASE_API_URL}/api/project/getMyActiveProjects`;

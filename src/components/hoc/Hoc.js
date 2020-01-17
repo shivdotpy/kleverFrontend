@@ -42,7 +42,9 @@ export const Hoc = (props) => {
 											<tr>
 												<td />
 												<td className="text-left">
-													<small>Active Projects</small>
+													<small>
+														<Link to="/active-projects">Active Projects</Link>
+													</small>
 												</td>
 											</tr>
 										)}
@@ -50,7 +52,9 @@ export const Hoc = (props) => {
 											<tr>
 												<td />
 												<td className="text-left">
-													<small>Pending Proposals</small>
+													<small>
+														<Link to="/pending-proposals">Pending Proposals</Link>
+													</small>
 												</td>
 											</tr>
 										)}

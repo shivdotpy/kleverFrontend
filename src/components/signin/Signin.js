@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { SIGNIN_API_ENDPOINT } from '../../utils/constants';
 
-export const Signin = () => {
+export const Signin = (props) => {
 	const [ email, setEmail ] = useState('');
 	const [ password, setPassword ] = useState('');
 
@@ -19,6 +19,11 @@ export const Signin = () => {
 			.then((response) => {
 				console.log(response.data);
 				localStorage.setItem('user', JSON.stringify(response.data.data))
+				if (response.data.data.userType === 'employer') {
+					props.history.push('/active-projects')
+				} else {
+					props.history.push('/pending-proposals')
+				}
 			})
 			.catch((error) => {
 				console.log(error.response);
@@ -63,7 +68,7 @@ export const Signin = () => {
 				</div>
 				<div className="text-center">
 					<button className="btn btn-info signin-btn-width" onClick={onSubmit}>
-						Login
+						Sign In
 					</button>
 				</div>
 				<div className="text-center">
